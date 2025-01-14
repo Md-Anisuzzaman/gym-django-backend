@@ -8,9 +8,14 @@ from ..model.membersModel import Member
 from ..serializer.membersSerializer import MemberSerializer,MemberRegistrationSerializer,MemberLoginSerializer
 from ..utils import global_response,get_tokens,verify_token
 from django.utils.decorators import method_decorator
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+
+
 
 # @method_decorator(api_key_required, name='dispatch')
 class MemberListView(APIView):
+    @swagger_auto_schema(responses={200: MemberSerializer(many=True)})
     def get(self,request):
             try:
                 members = Member.objects.all()
@@ -22,8 +27,8 @@ class MemberListView(APIView):
                     data = serializer.data, msg="All members fetched successfully", status=status.HTTP_200_OK)
             except Exception as e:
                 return global_response(
-                    errors = "An error occurred while fetching members.", msg = str(e),status=status.HTTP_500_INTERNAL_SERVER_ERROR)        
-    
+                    errors = "An error occurred while fetching members.", msg = str(e),status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
+    @swagger_auto_schema(responses={200: MemberSerializer(many=True)})                
     def post(self, request):
         serializer = MemberSerializer(data=request.data)
         if serializer.is_valid():
@@ -33,6 +38,7 @@ class MemberListView(APIView):
         return global_response(errors = serializer.errors, status=status.HTTP_417_EXPECTATION_FAILED)   
     
 class MemberDeatilsView(APIView):
+    @swagger_auto_schema(responses={200: MemberSerializer(many=True)})
     def get(self,request,pk):
             try:
                 member = Member.objects.get(pk=pk)
@@ -45,7 +51,8 @@ class MemberDeatilsView(APIView):
             except Exception as e:
                 return global_response(
                     errors = "An unexpected error occurred.", msg =str(e),status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+                
+    @swagger_auto_schema(responses={200: MemberSerializer(many=True)})
     def put(self, request, pk):
         try:
             # Fetch the Member object by primary key (id)
@@ -79,6 +86,7 @@ class MemberDeatilsView(APIView):
 
 
 class MemberRegistrationView(APIView):
+    @swagger_auto_schema(responses={200: MemberRegistrationSerializer(many=True)})
     def post(self, request):
         serializer = MemberRegistrationSerializer(data=request.data)
         if serializer.is_valid():
@@ -100,6 +108,7 @@ class MemberRegistrationView(APIView):
     
 
 class MemberLoginView(APIView):
+    @swagger_auto_schema(responses={200: MemberLoginSerializer(many=True)})
     def post(self, request, *args, **kwargs):
         serializer = MemberLoginSerializer(data=request.data)
         if serializer.is_valid():

@@ -7,9 +7,9 @@ from powerGym_app.views.trainerActivityView import *
 from .utils import token_authentication_required
 
 urlpatterns = [
-    # path('members/', MemberListView.as_view(), name='allmemberslists'),
     # path('members/', token_authentication_required(MemberListView.as_view()),name='allmemberslists'),
-    path('members/', MemberListView.as_view(),name='allmemberslists'),
+    # path('members/', MemberListView.as_view(),name='allmemberslists'),
+    path('members/', MemberListView.as_view(), name='allmemberslists'),
     path('member/<int:pk>', MemberDeatilsView.as_view(), name='memberlist-and-update-and-delete'),
     path('register/', MemberRegistrationView.as_view(), name='user_registration'),
     path('login/', MemberLoginView.as_view(), name='user_login'),
