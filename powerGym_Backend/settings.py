@@ -27,7 +27,8 @@ SECRET_KEY = env('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -46,6 +47,12 @@ INSTALLED_APPS = [
     'drf_yasg'
     
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny'],
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
